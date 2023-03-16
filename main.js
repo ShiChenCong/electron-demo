@@ -1,10 +1,17 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path')
 
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+    },
   });
+
+  // 监听ping事件
+  ipcMain.handle('ping', () => 'pong')
 
   win.loadFile('index.html');
 };
